@@ -38,7 +38,7 @@
           <p>
             Andrew Svetlov
             <p>
-              <small>http://asvetlov.blogspot.com</small><br>
+              <small>@andrew_svetlov</small><br>
               <small>andrew.svetlov@gmail.com</small><br>
               <small>http://asvetlov.github.io/aiohttp-puerto-rico-2017/</small>
             </p>
@@ -59,7 +59,7 @@
         <section>
           <h1>Why?</h1>
           <ul>
-            <li>It's cool!!!</li>
+            <li class="fragment">It's cool!!!</li>
             <li class="fragment">Invented here (I'm an author)</li>
             <li class="fragment">Websockets out-of-the-box</li>
             <li class="fragment">...</li>
@@ -82,6 +82,14 @@
                 Tornado server</dd>
             </dl>
           </section>
+          <section>
+            <h2>Async way</h2>
+            <ul>
+              <li class="fragment">Unified code base, utilities etc.</li>
+              <li class="fragment">Use single proccess for development</li>
+              <li class="fragment">and multi-node deployment</li>
+            </ul>
+          </section>
         </section>
         <section>
           <section>
@@ -94,7 +102,7 @@
               <li>1 process</li>
               <li>500 Mb</li>
               <li><b>20</b> RPS</li>
-              <li>7% CPU</li>
+              <li>8% CPU</li>
             </ul>
             <p class="fragment"><b>IO waiting</b> (DB access etc.)</p>
           </section>
@@ -104,7 +112,7 @@
               <li><b>10</b> processes</li>
               <li><b>5 GB</b> (500 Mb * 10)</li>
               <li><b>200</b> RPS</li>
-              <li><b>70%</b> CPU</li>
+              <li><b>80%</b> CPU</li>
             </ul>
           </section>
           <section>
@@ -112,7 +120,7 @@
             <ul>
               <li><b>500 Mb</b></li>
               <li><b>200 RPS</b></li>
-              <li>70% CPU usage</li>
+              <li>80% CPU usage</li>
             </ul>
           </section>
         </section>
@@ -190,7 +198,7 @@ with asyncio_timeout.timeout(10):
             <h1>Performance</h1>
           </section>
           <section>
-            <h2>No IO</h2>
+            <h2>CPU bound</h2>
             <img src="no_io.png"/>
           </section>
           <section>
@@ -220,14 +228,17 @@ with asyncio_timeout.timeout(10):
     app = web.Application()
     app.router.add_get('/', handler)
     app.router.add_get('/{name}', handler)
+    await setup_db(app)
     web.run_app(app)
             </code></pre>
           </section>
           <section>
             <h2>Missings</h2>
             <ul>
-              <li>ORM</li>
-              <li>Batteries</li>
+              <li class="fragment">Object Relational Mapping</li>
+              <li class="fragment">Batteries</li>
+              <li class="fragment">User experience</li>
+              <li class="fragment">Web resources (blogs, StackOverflow etc.)</li>
             </ul>
           </section>
         </section>
@@ -237,7 +248,7 @@ with asyncio_timeout.timeout(10):
           <p>
             Andrew Svetlov
             <p>
-              <small>http://asvetlov.blogspot.com</small><br>
+              <small>@andrew_svetlov</small><br>
               <small>andrew.svetlov@gmail.com</small><br>
               <small>http://asvetlov.github.io/aiohttp-puerto-rico-2017/</small>
             </p>
