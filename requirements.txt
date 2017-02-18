@@ -1,4 +1,2 @@
-docker-py
-pytest
-pytest-sugar
-redis
+numpy
+matplotlib

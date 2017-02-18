@@ -48,7 +48,7 @@
           <h2>Bio</h2>
           <p>
             <ul>
-              <li>Use Python for more than 16 years</li>
+              <li>Using Python 17+ years</li>
               <li>Python Core Developer since 2012</li>
               <li><i>asyncio</i> committer</li>
               <li><i>aiohttp</i> maintainer</li>
@@ -57,52 +57,89 @@
           </p>
         </section>
         <section>
+          <h1>Why?</h1>
+          <ul>
+            <li>It's cool!!!</li>
+            <li class="fragment">Invented here (I'm an author)</li>
+            <li class="fragment">Websockets out-of-the-box</li>
+            <li class="fragment">...</li>
+          </ul>
+        </section>
+        <section>
           <section>
-            <h1>Why?</h1>
-            <ul>
-              <li>It's cool!!!</li>
-              <li class="fragment">I'm an author</li>
-              <li class="fragment">Websockets out-of-the-box</li>
-              <li class="fragment">...</li>
-            </ul>
-          </section>
-          <section data-background="Jupiter_bayan_accordion.jpg" data-background-size="60%">
-            <br/>
+            <h1>Interactivity</h1>
+            <img src="interactivity.jpg"/>
           </section>
           <section>
-            <h1>To save memory!</h1>
+            <dl>
+              <dt>Regular HTTP requests</dt>
+              <dd>
+                https://example.com:8080<br/>
+                Django app</dd>
+              <dt>Websockets</dt>
+              <dd>
+                wss://example.com:8081<br/>
+                Tornado server</dd>
+            </dl>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Memory saving</h1>
+            <img src="ram.jpg" width="70%"/>
           </section>
           <section>
             <h2>WSGI</h2>
             <ul>
-              <li>500 Mb process</li>
-              <li>100 ms response time</li>
-              <li>70% serving requests</li>
-              <li>7 RPS</li>
-              <li>5% CPU usage</li>
+              <li>1 process</li>
+              <li>500 Mb</li>
+              <li><b>20</b> RPS</li>
+              <li>7% CPU</li>
+            </ul>
+            <p class="fragment"><b>IO waiting</b> (DB access etc.)</p>
+          </section>
+          <section>
+            <h2>WSGI * 10</h2>
+            <ul>
+              <li><b>10</b> processes</li>
+              <li><b>5 GB</b> (500 Mb * 10)</li>
+              <li><b>200</b> RPS</li>
+              <li><b>70%</b> CPU</li>
             </ul>
           </section>
           <section>
             <h2>Async</h2>
             <ul>
-              <li>500 Mb process</li>
-              <li>103-105 ms response time</li>
-              <li>100 RPS</li>
+              <li><b>500 Mb</b></li>
+              <li><b>200 RPS</b></li>
               <li>70% CPU usage</li>
             </ul>
           </section>
+        </section>
+        <section>
           <section>
-            <h2>Failure</h2>
+            <h1>Slow requests</h1>
+          </section>
+          <section>
+            <h2>Normal request</h2>
             <ul>
-              <li>Latency: 50 ms → 3-15 sec</li>
-              <li>Response: 50 ms → 0.5-1 sec</li>
+              <li>Web App: 50 ms</li>
+              <li>NGINX: 50 ms</li>
+              <li>Browser: 0.1 sec</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Slowdown</h2>
+            <ul>
+              <li>1% requests with 1 sec latency</li>
+              <li>NGINX: 10 sec</li>
             </ul>
           </section>
           <section>
             <h2>Total Failure</h2>
             <ul>
               <li>0.01% requests with 1 min latency</li>
-              <li>Response: 50 ms → 5-15 minutes</li>
+              <li>NGINX: 5-15 minutes</li>
             </ul>
           </section>
         </section>
@@ -133,45 +170,10 @@ async def handler(request):
           </section>
           <section>
             <h2>Hidden concurrency</h2>
-            <pre><code>
-async def handler(request):
-    value1 = await get_part1(request)
-    value2 = await get_part2(request)
-    return render_response(value1, value2)
-            </code></pre>
+            <p>Good async client supports pipelining</p>
           </section>
           <section data-background="multitasks.svg" data-background-size="60%">
             <br/>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>HTTP Keep-Alive</h1>
-          </section>
-          <section>
-            <h2>Server-side connections</h2>
-            <ul>
-              <li>NGINX</li>
-              <li>Backend (aiohttp)</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Client connections</h2>
-            <pre><code>
-async def handler(request):
-    session = request.app['client_session']
-    async with session.get(url) as resp:
-        body = yield from resp.json()
-    return render_json(body)
-            </code></pre>
-          </section>
-          <section>
-            <h2>DB connection pools</h2>
-            <pre><code>
-async def handler(request):
-    async with request.app['db'] as conn:
-        await conn.execute('SELECT * FROM ...')
-            </code></pre>
           </section>
         </section>
         <section>
@@ -188,26 +190,48 @@ with asyncio_timeout.timeout(10):
             <h1>Performance</h1>
           </section>
           <section>
-            <h2>JSON requests</h2>
-          </section>
-          <section data-background="perf-json.png" data-background-size="60%">
-            <br/>
+            <h2>No IO</h2>
+            <img src="no_io.png"/>
           </section>
           <section>
-            <h2>External resource</h2>
-            <p>Think about github.com, facebook.com or google.com</p>
-          </section>
-          <section data-background="external.png" data-background-size="60%">
-            <br/>
-          </section>
-          <section>
-            <h2>Database</h2>
-            <p>Hosted in sibling docker contatiner</p>
-          </section>
-          <section data-background="db.png" data-background-size="60%">
-            <br/>
+            <h2>IO bound</h2>
+            <img src="io.png"/>
           </section>
         </section>
+        <section>
+          <section>
+            <h1>Drawbacks</h1>
+            <img src="drawback.jpg" width="70%"/>
+          </section>
+          <section>
+            <h2>Async code</h2>
+            <pre><code>
+    from aiohttp import web
+    from . import db
+
+    async def handler(request):
+        name = request.match_info.get('name', "Anonymous")
+        async with request.app['db'] as conn:
+            await conn.execute(
+                db.visitors.insert(name=name,
+                                   when=datetime.utcnow()))
+        return web.Response(text="Hello, "+name)
+
+    app = web.Application()
+    app.router.add_get('/', handler)
+    app.router.add_get('/{name}', handler)
+    web.run_app(app)
+            </code></pre>
+          </section>
+          <section>
+            <h2>Missings</h2>
+            <ul>
+              <li>ORM</li>
+              <li>Batteries</li>
+            </ul>
+          </section>
+        </section>
+
         <section>
           <h1>Questions?</h1>
           <p>
